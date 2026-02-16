@@ -1,0 +1,62 @@
+local Players = game:GetService(“Players”) local Player =
+Players.LocalPlayer local PlayerGui = Player:WaitForChild(“PlayerGui”)
+local SoundService = game:GetService(“SoundService”) local TweenService
+= game:GetService(“TweenService”) local Debris =
+game:GetService(“Debris”)
+
+– Xóa GUI cũ nếu có if PlayerGui:FindFirstChild(“PinkLoveGui”) then
+PlayerGui.PinkLoveGui:Destroy() end
+
+– Tạo GUI local gui = Instance.new(“ScreenGui”) gui.Name = “PinkLoveGui”
+gui.IgnoreGuiInset = true gui.ResetOnSpawn = false gui.Parent =
+PlayerGui
+
+– Nền hồng local bg = Instance.new(“Frame”) bg.Size =
+UDim2.fromScale(1,1) bg.BackgroundColor3 = Color3.fromRGB(255,170,200)
+bg.BorderSizePixel = 0 bg.Parent = gui
+
+– Nội dung local message = “Anh không giỏi nói lời hoa mỹ.hàng triệu
+người, anh vẫn chọn em.phải vì hoàn hảo,vì em là người anh yêu.”
+
+– Text chính local textLabel = Instance.new(“TextLabel”)
+textLabel.Parent = bg textLabel.Size = UDim2.fromScale(0.8,0.6)
+textLabel.Position = UDim2.fromScale(0.1,0.2)
+textLabel.BackgroundTransparency = 1 textLabel.Text = message
+textLabel.TextWrapped = true textLabel.TextScaled = true textLabel.Font
+= Enum.Font.GothamBlack textLabel.TextColor3 =
+Color3.fromRGB(255,60,140) textLabel.TextStrokeTransparency = 0.3
+textLabel.TextYAlignment = Enum.TextYAlignment.Center
+textLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+– Tween nhúc nhích mượt toàn khối local tweenInfo = TweenInfo.new( 2.5,
+Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true )
+
+local goal = { Position = UDim2.fromScale(0.1,0.18) }
+
+local tween = TweenService:Create(textLabel, tweenInfo, goal)
+tween:Play()
+
+– Nhạc local music = Instance.new(“Sound”) music.SoundId =
+“rbxassetid://7453158420” music.Volume = 1 music.Looped = true
+music.Parent = SoundService music:Play()
+
+– Tim bay mượt task.spawn(function() while true do local heart =
+Instance.new(“TextLabel”) heart.Text = “❤” heart.Font =
+Enum.Font.GothamBold heart.TextColor3 = Color3.fromRGB(255,80,120)
+heart.TextScaled = true heart.BackgroundTransparency = 1 heart.Size =
+UDim2.fromScale(0.05,0.05) heart.Position =
+UDim2.fromScale(math.random(),1) heart.Parent = bg
+
+        local heartTween = TweenService:Create(
+            heart,
+            TweenInfo.new(3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+            {Position = UDim2.fromScale(heart.Position.X.Scale, -0.1), TextTransparency = 1}
+        )
+
+        heartTween:Play()
+        Debris:AddItem(heart,3)
+
+        task.wait(0.4)
+    end
+
+end)
